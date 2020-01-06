@@ -36,22 +36,20 @@ app.post('/api/posts',(req, res, next) => {
 });
 
 app.get('/api/posts',(req, res, next) => {
-  const posts = [
-    {
-      id:'adlksfj',
-      title:'first server side post',
-      content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-    {
-      id:'fgdfgfdg',
-      title:'second server side post',
-      content:'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    }
+    Post.find()
+    .then( documents => {
+      res.status(200).json({
+        message: 'Posts fetched succesfully',
+        posts: documents
+      });
+    });
+});
 
-  ];
-  res.status(200).json({
-    message: 'Posts fetched succesfully',
-    posts: posts
+app.delete('/api/posts/:id',(req, res, next) => {
+  //
+  Post.deleteOne({_id: req.params.id}).then(result => {
+    console.log(result);
+    res.status(200).json({ message: 'Post deleted'});
   });
 });
 
